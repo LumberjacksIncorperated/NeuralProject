@@ -6,6 +6,9 @@
 typedef double NeuralValue;
 
 typedef struct _NeuralNetwork {
+  int sizeOfInputVector;
+  int sizeOfNeuralLayer;
+  int numberOfNeuralLayers;
   NeuralValue** columnsOfWeightsForEachNeuralLayer;
 } NeuralNetwork;
 
