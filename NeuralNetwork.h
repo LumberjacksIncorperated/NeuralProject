@@ -21,4 +21,4 @@ NeuralNetwork* newNeuralNetworkWithSizeOfInputVectorSizeOfNeuralLayerAndNumberOf
 void destroyNeuralNetwork(NeuralNetwork *neuralNetworkToDestroy);
 
 void learnOnInputVectorAndExpectedResultClassification(NeuralNetwork* theNeuralNetwork, NeuralValue* inputVector, NeuralResultClassification expectedResultClassification);
-NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(NeuralNetwork* theNeuralNetwork, NeuralValue* inputVector);
+NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(NeuralValue* inputVector, NeuralNetwork* theNeuralNetwork);

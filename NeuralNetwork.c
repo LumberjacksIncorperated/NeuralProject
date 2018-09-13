@@ -1,8 +1,15 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "NeuralNetwork.h"
+
+
+#define MAX(a,b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a > _b ? _a : _b; })
 
 
 NeuralValue** _createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue(int numberOfColumns, int numberOfValuesPerColumn, NeuralValue defaultNeuralValue) {
@@ -18,7 +25,7 @@ NeuralValue** _createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerCo
 
 
 NeuralNetwork* newNeuralNetworkWithSizeOfInputVectorSizeOfNeuralLayerAndNumberOfNeuralLayers(int sizeOfInputVector, int sizeOfNeuralLayer, int numberOfNeuralLayers) {
-  int inputsAreTrash = ((sizeOfInputVector <= 0) || (sizeOfNeuralLayer <= 0) || (numberOfNeuralLayers <= 0))
+  int inputsAreTrash = ((sizeOfInputVector <= 0) || (sizeOfNeuralLayer <= 0) || (numberOfNeuralLayers <= 0));
   NeuralNetwork* newNeuralNetwrok = NULL;
   if (!inputsAreTrash) {
     newNeuralNetwrok = malloc(sizeof(NeuralNetwork));
@@ -45,8 +52,21 @@ void learnOnInputVectorAndExpectedResultClassification(NeuralNetwork* theNeuralN
 }
 
 
-void _propagateThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(NeuralValue* inputVector, int inputVectorSize, NeuralValue* inputWeights, NeuralValue* outputVector, int outputVectorSize) {
 
+
+
+void _propagateThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(
+  NeuralValue* inputVector, int inputVectorSize, NeuralValue* inputWeights, NeuralValue* outputVector, int outputVectorSize) {
+
+    memset(outputVector, 0, sizeof(NeuralValue)*outputVectorSize);
+
+    for (int outputVectorIndex = 0; outputVectorIndex < outputVectorSize; ++outputVectorIndex) {
+        for (int inputVectorIndex = 0; inputVectorIndex < inputVectorSize; ++inputVectorIndex) {
+          int inputWeightIndex = inputVectorIndex + outputVectorIndex*inputVectorSize;
+          NeuralValue weight = inputWeights[inputWeightIndex];
+          outputVector[outputVectorIndex] += inputVector[inputVectorIndex]*weight;
+        }
+    }
 }
 
 NeuralResultClassification _classificationByInterpretingNeuralValue(NeuralValue neuralValueInQuestion) {
@@ -55,8 +75,52 @@ NeuralResultClassification _classificationByInterpretingNeuralValue(NeuralValue 
 }
 
 
-NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(NeuralNetwork* theNeuralNetwork, NeuralValue* inputVector) {
+NeuralValue _forwardPropergateThroughNeuralNetworkWithInputVectorAndSettingInputActivationArrayAndReturningResultantValue(NeuralNetwork* theNeuralNetwork, NeuralValue* inputVector, NeuralValue** inputActivationArrayForHiddenLayers) {
+  //int sizeToMallocForWorkingVectors = MAX(theNeuralNetwork->sizeOfInputVector, theNeuralNetwork->sizeOfNeuralLayer)*sizeof(NeuralValue);
+  //NeuralValue* workingVectorOfInputValues = (NeuralValue*)malloc(sizeToMallocForWorkingVectors);
+  //NeuralValue* workingVectorOfOutputValues = (NeuralValue*)malloc(sizeToMallocForWorkingVectors);
 
+
+
+  int currentIndexOfInputActivationArray = 0;
+  _propagateThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputVector, theNeuralNetwork->sizeOfInputVector, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[0], inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer);
+
+  for (int currentNeuralLayerNumber = 1; currentNeuralLayerNumber < theNeuralNetwork->numberOfNeuralLayers; ++currentNeuralLayerNumber) {
+    _propagateThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[currentNeuralLayerNumber], inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray+1], theNeuralNetwork->sizeOfNeuralLayer);
+    currentIndexOfInputActivationArray++;
+  }
+
+  NeuralValue outputResultantNeuralValue;
+  _propagateThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[theNeuralNetwork->numberOfNeuralLayers], &outputResultantNeuralValue, 1);
+
+  //free(workingVectorOfInputValues);
+  //free(workingVectorOfOutputValues);
+
+  printf("%lf\n", outputResultantNeuralValue);
+
+  return outputResultantNeuralValue;
+
+  //return _classificationByInterpretingNeuralValue(outputResultantNeuralValue);
+}
+
+NeuralValue** _allocInputActivationArrayForHiddenLayersOfNeuralNetwork(NeuralNetwork* theNeuralNetwork) {
+  NeuralValue** inputActivationArrayForHiddenLayers = (NeuralValue**)malloc(sizeof(NeuralValue*)*theNeuralNetwork->numberOfNeuralLayers);
+  for (int inputActivationLayerIndex = 0; inputActivationLayerIndex < theNeuralNetwork->numberOfNeuralLayers; ++inputActivationLayerIndex) {
+    inputActivationArrayForHiddenLayers[inputActivationLayerIndex] = (NeuralValue*)malloc(sizeof(NeuralValue)*theNeuralNetwork->sizeOfNeuralLayer);
+  }
+  return inputActivationArrayForHiddenLayers;
+}
+
+NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(NeuralValue* inputVector, NeuralNetwork* theNeuralNetwork) {
+
+  NeuralValue** inputActivationArrayForHiddenLayers = _allocInputActivationArrayForHiddenLayersOfNeuralNetwork(theNeuralNetwork);
+  NeuralValue outputResultantNeuralValue = _forwardPropergateThroughNeuralNetworkWithInputVectorAndSettingInputActivationArrayAndReturningResultantValue(theNeuralNetwork, inputVector, inputActivationArrayForHiddenLayers);
+
+  return _classificationByInterpretingNeuralValue(outputResultantNeuralValue);
+
+
+
+/*
   int sizeToMallocForWorkingVectors = MAX(theNeuralNetwork->sizeOfInputVector, theNeuralNetwork->sizeOfNeuralLayer)*sizeof(NeuralValue);
   NeuralValue* workingVectorOfInputValues = (NeuralValue*)malloc(sizeToMallocForWorkingVectors);
   NeuralValue* workingVectorOfOutputValues = (NeuralValue*)malloc(sizeToMallocForWorkingVectors);
@@ -74,5 +138,7 @@ NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(Neural
   free(workingVectorOfInputValues);
   free(workingVectorOfOutputValues);
 
+  printf("%lf\n", outputResultantNeuralValue);
   return _classificationByInterpretingNeuralValue(outputResultantNeuralValue);
+  */
 }

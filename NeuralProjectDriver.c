@@ -10,8 +10,12 @@ int main() {
 
   NeuralNetwork* aNeuralNetwork = newNeuralNetworkWithSizeOfInputVectorSizeOfNeuralLayerAndNumberOfNeuralLayers(3, 5, 2);
 
-  NeuralValue someInputVector[3] = {12.4, 123, -2};
-  learnOnInputVectorAndExpectedResultClassification(aNeuralNetwork, someInputVector, FalseResultClassification);
+  NeuralValue someInputVector[3] = {12.4, -123, -2};
+  //learnOnInputVectorAndExpectedResultClassification(aNeuralNetwork, someInputVector, FalseResultClassification);
+
+  NeuralResultClassification resultClassification = classifyResultForInputVectorUnderNeuralNetwork(someInputVector, aNeuralNetwork);
+
+  printf("%s\n", resultClassification==TrueResultClassification?"TRUE":"FALSE");
 
   destroyNeuralNetwork(aNeuralNetwork);
 
