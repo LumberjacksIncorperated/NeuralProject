@@ -5,15 +5,18 @@
 #include "NeuralNetwork.h"
 
 int main() {
+
   printf("Starting the driver...\n");
 
+  NeuralNetwork* aNeuralNetwork = newNeuralNetworkWithSizeOfInputVectorSizeOfNeuralLayerAndNumberOfNeuralLayers(5, 5, 5);
 
-  NeuralNetwork* aNeuralNetwork = newNeuralNetworkWithSizeOfInputVectorSizeOfNeuralLayerAndNumberOfNeuralLayers(3, 5, 2);
+  NeuralValue someInputVector[5] = {12.4, -1231, -2, 123, 12};
 
-  NeuralValue someInputVector[3] = {12.4, -123, -2};
-  //learnOnInputVectorAndExpectedResultClassification(aNeuralNetwork, someInputVector, FalseResultClassification);
+  NeuralResultClassification resultClassification;
 
-  NeuralResultClassification resultClassification = classifyResultForInputVectorUnderNeuralNetwork(someInputVector, aNeuralNetwork);
+  resultClassification = classifyResultForInputVectorUnderNeuralNetwork(someInputVector, aNeuralNetwork);
+  learnOnInputVectorAndExpectedResultClassification(aNeuralNetwork, someInputVector, TrueResultClassification);
+  resultClassification = classifyResultForInputVectorUnderNeuralNetwork(someInputVector, aNeuralNetwork);
 
   printf("%s\n", resultClassification==TrueResultClassification?"TRUE":"FALSE");
 
