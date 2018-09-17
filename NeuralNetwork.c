@@ -32,6 +32,7 @@ NeuralValue _determineErrorOfNeuralValueWhenComparedToExpectedResultClassificati
 int _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(int inputVectorIndex, int outputVectorIndex, int inputVectorSize);
 NeuralValue* _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(int numberOfValuesPerColumn, NeuralValue defaultNeuralValue);
 NeuralValue _getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex(NeuralValue* inputVector, int inputVectorIndex, int inputVectorSize, NeuralValue* inputWeights, int outputVectorIndex);
+void _setInputActivationArrayForInputVector(NeuralValue* inputVector, int sizeOfInputVector, NeuralValue** inputActivationArray);
 
 //-----------------------------------------------------------------------------------------
 // META FUNCTION FORWARD DEFINITIONS
@@ -112,13 +113,12 @@ void _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndI
 }
 
 NeuralResultClassification _classificationByInterpretingNeuralValue(NeuralValue neuralValueInQuestion) {
-  NeuralResultClassification resultClassification = (neuralValueInQuestion >= 0)?TrueResultClassification:FalseResultClassification;
+  NeuralResultClassification resultClassification = (neuralValueInQuestion >= 0) ? TrueResultClassification:FalseResultClassification;
   return resultClassification;
 }
 
 NeuralValue _determineErrorOfNeuralValueWhenComparedToExpectedResultClassification(NeuralValue neuralValueInQuestion, NeuralResultClassification resultClassificationInQuestion) {
   NeuralValue theErrorIndeed = 0;
-
   if (resultClassificationInQuestion == TrueResultClassification) {
     if (neuralValueInQuestion < 0) theErrorIndeed = 1;//0-neuralValueInQuestion;
   } else if (resultClassificationInQuestion == FalseResultClassification) {
@@ -127,22 +127,27 @@ NeuralValue _determineErrorOfNeuralValueWhenComparedToExpectedResultClassificati
   return theErrorIndeed;
 }
 
-NeuralValue _forwardPropergateThroughNeuralNetworkWithInputVectorAndSettingInputActivationArrayAndReturningResultantValue(NeuralNetwork* theNeuralNetwork, NeuralValue* inputVector, NeuralValue** inputActivationArrayForHiddenLayers) {
-  int currentIndexOfInputActivationArray = 0;
+#define INPUT_LAYER_OF_INPUT_ACTIVATION_MATRIX 0
+void _setInputActivationArrayForInputVector(NeuralValue* inputVector, int sizeOfInputVector, NeuralValue** inputActivationArray) {
+  for (int inputVectorIndex = 0; inputVectorIndex < sizeOfInputVector; ++inputVectorIndex) {
+    inputActivationArray[INPUT_LAYER_OF_INPUT_ACTIVATION_MATRIX][inputVectorIndex] = inputVector[inputVectorIndex];
+  }
+}
 
-  for (int inputVectorIndex = 0; inputVectorIndex < theNeuralNetwork->sizeOfInputVector; ++ inputVectorIndex)
-    inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray][inputVectorIndex] = inputVector[inputVectorIndex];
-
-  currentIndexOfInputActivationArray++;
-  _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputVector, theNeuralNetwork->sizeOfInputVector, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[0], inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer);
+NeuralValue _forwardPropergateThroughNeuralNetworkWithInputVectorAndSettingInputActivationArrayAndReturningResultantValue(NeuralNetwork* theNeuralNetwork, NeuralValue* inputVector, NeuralValue** inputActivationArray) {
+  int currentLayerOfInputActivationArray = 0;
+  _setInputActivationArrayForInputVector(inputVector, theNeuralNetwork->sizeOfInputVector, inputActivationArray);
+  currentLayerOfInputActivationArray++;
+  _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputVector, theNeuralNetwork->sizeOfInputVector, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[0], inputActivationArray[currentLayerOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer);
 
   for (int currentNeuralLayerNumber = 1; currentNeuralLayerNumber < theNeuralNetwork->numberOfNeuralLayers; ++currentNeuralLayerNumber) {
-    _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[currentNeuralLayerNumber], inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray+1], theNeuralNetwork->sizeOfNeuralLayer);
-    currentIndexOfInputActivationArray++;
+    _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputActivationArray[currentLayerOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[currentNeuralLayerNumber], inputActivationArray[currentLayerOfInputActivationArray+1], theNeuralNetwork->sizeOfNeuralLayer);
+    currentLayerOfInputActivationArray++;
   }
 
   NeuralValue outputResultantNeuralValue;
-  _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputActivationArrayForHiddenLayers[currentIndexOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[theNeuralNetwork->numberOfNeuralLayers], &outputResultantNeuralValue, 1);
+  _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(inputActivationArray[currentLayerOfInputActivationArray], theNeuralNetwork->sizeOfNeuralLayer, theNeuralNetwork->columnsOfWeightsForEachNeuralLayer[theNeuralNetwork->numberOfNeuralLayers], &outputResultantNeuralValue, 1);
+
   return outputResultantNeuralValue;
 }
 
