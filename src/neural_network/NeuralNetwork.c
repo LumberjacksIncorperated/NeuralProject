@@ -267,30 +267,88 @@ void __print2dArrayWithNameArrayAndColumnsAndRows(char* name, NeuralValue** arra
 }
 
 //-----------------------------------------------------------------------------------------
+// TEST ASSISTANCE FUNCTIONS
+//-----------------------------------------------------------------------------------------
+void _test_printModuleTestingMessage() {
+    printf("\n----------------------------------------------------------------------------------------------\n");
+    printf("\t MODULE TESTING: neural_network\n");
+    printf("----------------------------------------------------------------------------------------------\n");
+}
+
+void _test_printTestNameDescriptionAndResultStub(char* testName, char* testDescription) {
+    printf("\t<Test>: %s\n", testName);
+    printf("\t<Decription>: %s\n", testDescription);
+    printf("\t<Result>: ");
+}
+
+void _test_printTestResult(int testResult) {
+    if(testResult == TRUE) {
+          printf("PASSED\n\n");
+    } else {
+          printf("FAILED\n\n");
+    }
+}
+
+//-----------------------------------------------------------------------------------------
 // TEST FUNCTIONS
 //-----------------------------------------------------------------------------------------
+void test_getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex() {
+    _test_printTestNameDescriptionAndResultStub("getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex", "test creates all default values");
+    NeuralValue* testWeights= _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(25, 7);
+    NeuralValue[] testInputVector = {2, 2, 2, 2, 2};
+    int testInputVectorIndex = 3;
+    int testOutputVectorIndex = 2;
+    int testContribution = _getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex(testInputVector, testInputVectorIndex, 5, testWeights, testOutputVectorIndex);
+    printf("here %lf\n", testContribution);
+    int test_result = TRUE;
+    _test_printTestResult(test_result);
+}
+
+void test_mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex() {
+    _test_printTestNameDescriptionAndResultStub("mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex", "test creates all default values");
+    int test_result = TRUE;
+    int mapTestOutputValueOne = _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(4, 4, 4);
+    if(mapTestOutputValueOne != 20) test_result = FALSE;
+    int mapTestOutputValueTwo = _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(4, 2, 2);
+    if(mapTestOutputValueTwo != 8) test_result = FALSE;
+    int mapTestOutputValueThree = _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(2, 3, 3);
+    if(mapTestOutputValueThree != 11) test_result = FALSE;
+    _test_printTestResult(test_result);
+}
+
 void test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue() {
-    printf("\t<Test>: createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue\n");
-    printf("\t<Decription>: test creates all default values\n");
-    printf("\t<Result>: ");
+    _test_printTestNameDescriptionAndResultStub("createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue", "test creates all default values");
+    NeuralValue** testColumns = _createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue(5, 15, 7);
+    int test_result = TRUE;
+    for(int columnIndex = 0; columnIndex < 5; columnIndex++) {
+        for(int valueIndex = 0; valueIndex < 15; valueIndex++) {
+            if(testColumns[columnIndex][valueIndex] != 7) {
+                test_result = FALSE;
+            }
+        }
+    }
+    _test_printTestResult(test_result);
+}
+
+void test_createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue() {
+    _test_printTestNameDescriptionAndResultStub("createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue", "test creates all default values");
     NeuralValue* testColumn = _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(15, 7);
     int test_result = TRUE;
-    for(int columnIndex = 0; columnIndex < 17; columnIndex++) {
+    for(int columnIndex = 0; columnIndex < 15; columnIndex++) {
         if(testColumn[columnIndex] != 7) {
             test_result = FALSE;
         }
     }
-    if(test_result == TRUE) {
-        printf("PASSED\n");
-    } else {
-        printf("FAILED\n");
-    }
+    _test_printTestResult(test_result);
 }
 
+//-----------------------------------------------------------------------------------------
+// MODULE TEST FUNCTION
+//-----------------------------------------------------------------------------------------
 void test_module_neural_network() {
-  printf("\n----------------------------------------------------------------------------------------------\n");
-  printf("\t MODULE TESTING: neural_network\n");
-  printf("----------------------------------------------------------------------------------------------\n");
+  _test_printModuleTestingMessage();
+  test_createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue();
   test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue();
-  printf("\n");
+  test_mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex();
+  test_getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex();
 }
