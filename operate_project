@@ -7,3 +7,4 @@ cmake ..
 make
 cd ../bin
 ./neuralNetworkProject
+./neuralNetworkProjectTest

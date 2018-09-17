@@ -87,5 +87,6 @@ NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(Neural
 //-----------------------------------------------------------------------------------------
 // TEST DEFINITIONS
 //-----------------------------------------------------------------------------------------
+void test_module_neural_network();
 
 #endif

@@ -23,6 +23,8 @@ string.h
 -
 stdio.h
 -
+assert.h
+-
 NeuralNetwork.h
 /Users/lumerberjacksincorperated/Documents/NeuralProject/src/neural_network/NeuralNetwork.h
 

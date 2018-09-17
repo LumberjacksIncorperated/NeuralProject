@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <assert.h>
 #include "NeuralNetwork.h"
 
 //-----------------------------------------------------------------------------------------
@@ -247,19 +248,6 @@ NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(Neural
 }
 
 //-----------------------------------------------------------------------------------------
-// TEST FUNCTIONS
-//-----------------------------------------------------------------------------------------
-void test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue(int numberOfColumns, int numberOfValuesPerColumn, NeuralValue defaultNeuralValue) {
-    NeuralValue** columnsOfNeuralValues = (NeuralValue**) malloc(numberOfColumns * sizeof(NeuralValue*));
-    for (int columnIndex = 0; columnIndex < numberOfColumns; ++columnIndex) {
-        columnsOfNeuralValues[columnIndex] = _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(numberOfValuesPerColumn, defaultNeuralValue);
-    }
-    return columnsOfNeuralValues;
-}
-
-
-
-//-----------------------------------------------------------------------------------------
 // META FUNCTIONS
 //-----------------------------------------------------------------------------------------
 void __print1dArrayWithNameArrayAndSize(char* name, NeuralValue* array, int size) {
@@ -276,4 +264,33 @@ void __print2dArrayWithNameArrayAndColumnsAndRows(char* name, NeuralValue** arra
     printf("\n");
   }
   printf("------------------\n\n");
+}
+
+//-----------------------------------------------------------------------------------------
+// TEST FUNCTIONS
+//-----------------------------------------------------------------------------------------
+void test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue() {
+    printf("\t<Test>: createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue\n");
+    printf("\t<Decription>: test creates all default values\n");
+    printf("\t<Result>: ");
+    NeuralValue* testColumn = _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(15, 7);
+    int test_result = TRUE;
+    for(int columnIndex = 0; columnIndex < 17; columnIndex++) {
+        if(testColumn[columnIndex] != 7) {
+            test_result = FALSE;
+        }
+    }
+    if(test_result == TRUE) {
+        printf("PASSED\n");
+    } else {
+        printf("FAILED\n");
+    }
+}
+
+void test_module_neural_network() {
+  printf("\n----------------------------------------------------------------------------------------------\n");
+  printf("\t MODULE TESTING: neural_network\n");
+  printf("----------------------------------------------------------------------------------------------\n");
+  test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue();
+  printf("\n");
 }

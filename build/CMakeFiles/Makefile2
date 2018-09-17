@@ -65,6 +65,43 @@ CMAKE_SOURCE_DIR = /Users/lumerberjacksincorperated/Documents/NeuralProject
 CMAKE_BINARY_DIR = /Users/lumerberjacksincorperated/Documents/NeuralProject/build
 
 #=============================================================================
+# Target rules for target CMakeFiles/neuralNetworkProjectTest.dir
+
+# All Build rule for target.
+CMakeFiles/neuralNetworkProjectTest.dir/all:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/depend
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/lumerberjacksincorperated/Documents/NeuralProject/build/CMakeFiles --progress-num=4,5,6 "Built target neuralNetworkProjectTest"
+.PHONY : CMakeFiles/neuralNetworkProjectTest.dir/all
+
+# Include target in all.
+all: CMakeFiles/neuralNetworkProjectTest.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/neuralNetworkProjectTest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lumerberjacksincorperated/Documents/NeuralProject/build/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/neuralNetworkProjectTest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/lumerberjacksincorperated/Documents/NeuralProject/build/CMakeFiles 0
+.PHONY : CMakeFiles/neuralNetworkProjectTest.dir/rule
+
+# Convenience name for target.
+neuralNetworkProjectTest: CMakeFiles/neuralNetworkProjectTest.dir/rule
+
+.PHONY : neuralNetworkProjectTest
+
+# clean rule for target.
+CMakeFiles/neuralNetworkProjectTest.dir/clean:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/clean
+.PHONY : CMakeFiles/neuralNetworkProjectTest.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/neuralNetworkProjectTest.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/neuralNetworkProject.dir
 
 # All Build rule for target.

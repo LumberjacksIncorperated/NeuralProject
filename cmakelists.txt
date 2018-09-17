@@ -15,6 +15,9 @@ project(neural_network)
 message(STATUS "Binary Directory for this make is: ${CMAKE_BINARY_DIR}")
 message(STATUS "Source Directory for this make is: ${CMAKE_SOURCE_DIR}")
 
+###########################################################################################
+# PROJECT
+###########################################################################################
 include_directories("${CMAKE_SOURCE_DIR}/src/neural_network")
 set(HEADER_SOURCES ${CMAKE_SOURCE_DIR}/src/neural_network/NeuralNetwork.h)
 
@@ -24,3 +27,20 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 add_executable(neuralNetworkProject ${SOURCES})
 
 install(TARGETS neuralNetworkProject DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+
+###########################################################################################
+# TESTING
+###########################################################################################
+include_directories("${CMAKE_SOURCE_DIR}/src/neural_network")
+set(HEADER_SOURCES ${CMAKE_SOURCE_DIR}/src/neural_network/NeuralNetwork.h)
+
+set(TEST_SOURCES src/neural_network/NeuralNetwork.c src/NeuralProjectTest.c ${HEADER_SOURCES})
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+
+add_executable(neuralNetworkProjectTest ${TEST_SOURCES})
+
+install(TARGETS neuralNetworkProjectTest DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+
+###########################################################################################
+# TESTING
+###########################################################################################

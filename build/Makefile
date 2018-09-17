@@ -90,6 +90,16 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -113,16 +123,6 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/local/Cellar/cmake/3.12.2/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -155,6 +155,19 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
+
+#=============================================================================
+# Target rules for targets named neuralNetworkProjectTest
+
+# Build rule for target.
+neuralNetworkProjectTest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 neuralNetworkProjectTest
+.PHONY : neuralNetworkProjectTest
+
+# fast build rule for target.
+neuralNetworkProjectTest/fast:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/build
+.PHONY : neuralNetworkProjectTest/fast
 
 #=============================================================================
 # Target rules for targets named neuralNetworkProject
@@ -196,12 +209,40 @@ src/NeuralProjectDriver.c.s:
 	$(MAKE) -f CMakeFiles/neuralNetworkProject.dir/build.make CMakeFiles/neuralNetworkProject.dir/src/NeuralProjectDriver.c.s
 .PHONY : src/NeuralProjectDriver.c.s
 
+src/NeuralProjectTest.o: src/NeuralProjectTest.c.o
+
+.PHONY : src/NeuralProjectTest.o
+
+# target to build an object file
+src/NeuralProjectTest.c.o:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/src/NeuralProjectTest.c.o
+.PHONY : src/NeuralProjectTest.c.o
+
+src/NeuralProjectTest.i: src/NeuralProjectTest.c.i
+
+.PHONY : src/NeuralProjectTest.i
+
+# target to preprocess a source file
+src/NeuralProjectTest.c.i:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/src/NeuralProjectTest.c.i
+.PHONY : src/NeuralProjectTest.c.i
+
+src/NeuralProjectTest.s: src/NeuralProjectTest.c.s
+
+.PHONY : src/NeuralProjectTest.s
+
+# target to generate assembly for a file
+src/NeuralProjectTest.c.s:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/src/NeuralProjectTest.c.s
+.PHONY : src/NeuralProjectTest.c.s
+
 src/neural_network/NeuralNetwork.o: src/neural_network/NeuralNetwork.c.o
 
 .PHONY : src/neural_network/NeuralNetwork.o
 
 # target to build an object file
 src/neural_network/NeuralNetwork.c.o:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/src/neural_network/NeuralNetwork.c.o
 	$(MAKE) -f CMakeFiles/neuralNetworkProject.dir/build.make CMakeFiles/neuralNetworkProject.dir/src/neural_network/NeuralNetwork.c.o
 .PHONY : src/neural_network/NeuralNetwork.c.o
 
@@ -211,6 +252,7 @@ src/neural_network/NeuralNetwork.i: src/neural_network/NeuralNetwork.c.i
 
 # target to preprocess a source file
 src/neural_network/NeuralNetwork.c.i:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/src/neural_network/NeuralNetwork.c.i
 	$(MAKE) -f CMakeFiles/neuralNetworkProject.dir/build.make CMakeFiles/neuralNetworkProject.dir/src/neural_network/NeuralNetwork.c.i
 .PHONY : src/neural_network/NeuralNetwork.c.i
 
@@ -220,6 +262,7 @@ src/neural_network/NeuralNetwork.s: src/neural_network/NeuralNetwork.c.s
 
 # target to generate assembly for a file
 src/neural_network/NeuralNetwork.c.s:
+	$(MAKE) -f CMakeFiles/neuralNetworkProjectTest.dir/build.make CMakeFiles/neuralNetworkProjectTest.dir/src/neural_network/NeuralNetwork.c.s
 	$(MAKE) -f CMakeFiles/neuralNetworkProject.dir/build.make CMakeFiles/neuralNetworkProject.dir/src/neural_network/NeuralNetwork.c.s
 .PHONY : src/neural_network/NeuralNetwork.c.s
 
@@ -232,13 +275,17 @@ help:
 	@echo "... install/local"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... install/strip"
-	@echo "... neuralNetworkProject"
-	@echo "... install"
+	@echo "... neuralNetworkProjectTest"
 	@echo "... list_install_components"
+	@echo "... install/strip"
+	@echo "... install"
+	@echo "... neuralNetworkProject"
 	@echo "... src/NeuralProjectDriver.o"
 	@echo "... src/NeuralProjectDriver.i"
 	@echo "... src/NeuralProjectDriver.s"
+	@echo "... src/NeuralProjectTest.o"
+	@echo "... src/NeuralProjectTest.i"
+	@echo "... src/NeuralProjectTest.s"
 	@echo "... src/neural_network/NeuralNetwork.o"
 	@echo "... src/neural_network/NeuralNetwork.i"
 	@echo "... src/neural_network/NeuralNetwork.s"
