@@ -30,6 +30,7 @@ NeuralValue _forwardPropergateThroughNeuralNetworkWithInputVectorAndSettingInput
 void _propagateBackwardsThroughLayerWithOutputVectorSizeAndOutputVectorErrorValuesAndWeightVectorAndInputVectorSizeAndInputVectorActivationValuesAndInputErrorsVectorThatWeAreGoingToOutput(int outputVectorSize, NeuralValue* outputErrorVector, NeuralValue* weightVector, int inputVectorSize, NeuralValue* inputActivationValuesVector, NeuralValue* inputErrorsVectorThatWeAreGoingToOutput);
 NeuralValue _determineErrorOfNeuralValueWhenComparedToExpectedResultClassification(NeuralValue neuralValueInQuestion, NeuralResultClassification resultClassificationInQuestion);
 int _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(int inputVectorIndex, int outputVectorIndex, int inputVectorSize);
+NeuralValue* _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(int numberOfValuesPerColumn, NeuralValue defaultNeuralValue);
 
 //-----------------------------------------------------------------------------------------
 // META FUNCTION FORWARD DEFINITIONS
@@ -40,13 +41,18 @@ void __print2dArrayWithNameArrayAndColumnsAndRows(char* name, NeuralValue** arra
 //-----------------------------------------------------------------------------------------
 // INTERNAL FUNCTIONS
 //-----------------------------------------------------------------------------------------
+NeuralValue* _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(int numberOfValuesPerColumn, NeuralValue defaultNeuralValue) {
+  NeuralValue* columnOfNerualValues = (NeuralValue*) malloc(numberOfValuesPerColumn * sizeof(NeuralValue));
+  for (int valueIndex = 0; valueIndex < numberOfValuesPerColumn; valueIndex++) {
+    columnOfNerualValues[valueIndex] = defaultNeuralValue;
+  }
+  return columnOfNerualValues;
+}
+
 NeuralValue** _createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue(int numberOfColumns, int numberOfValuesPerColumn, NeuralValue defaultNeuralValue) {
-  NeuralValue** columnsOfNeuralValues = (NeuralValue**)malloc(numberOfColumns*sizeof(NeuralValue*));
+  NeuralValue** columnsOfNeuralValues = (NeuralValue**) malloc(numberOfColumns * sizeof(NeuralValue*));
   for (int columnIndex = 0; columnIndex < numberOfColumns; ++columnIndex) {
-    columnsOfNeuralValues[columnIndex] = (NeuralValue*)malloc(numberOfValuesPerColumn*sizeof(NeuralValue));
-    for (int valueInColumnIndex = 0; valueInColumnIndex < numberOfValuesPerColumn; valueInColumnIndex++) {
-      columnsOfNeuralValues[columnIndex][valueInColumnIndex] = defaultNeuralValue;
-    }
+    columnsOfNeuralValues[columnIndex] = _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(numberOfValuesPerColumn, defaultNeuralValue);
   }
   return columnsOfNeuralValues;
 }
