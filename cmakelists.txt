@@ -1,0 +1,26 @@
+###########################################################################################
+#
+# DESCRIPTION
+# -----------
+# Compile the neural network project and runs tests
+#
+# AUTHOR
+# ------
+# Lumberjacks Incorperated (2018)
+#
+###########################################################################################
+cmake_minimum_required(VERSION 2.8.9)
+project(neural_network)
+
+message(STATUS "Binary Directory for this make is: ${CMAKE_BINARY_DIR}")
+message(STATUS "Source Directory for this make is: ${CMAKE_SOURCE_DIR}")
+
+include_directories("${CMAKE_SOURCE_DIR}/src/neural_network")
+set(HEADER_SOURCES ${CMAKE_SOURCE_DIR}/src/neural_network/NeuralNetwork.h)
+
+set(SOURCES src/neural_network/NeuralNetwork.c src/NeuralProjectDriver.c ${HEADER_SOURCES})
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+
+add_executable(neuralNetworkProject ${SOURCES})
+
+install(TARGETS neuralNetworkProject DESTINATION ${EXECUTABLE_OUTPUT_PATH})
