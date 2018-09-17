@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "NeuralNetwork.h" // Interface File
+#include "NeuralNetwork.h"
 
 //-----------------------------------------------------------------------------------------
 // MACRO DEFINITIONS
