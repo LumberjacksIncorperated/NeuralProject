@@ -83,8 +83,7 @@ void learnOnInputVectorAndExpectedResultClassification(NeuralNetwork* theNeuralN
 
 
 void _propagateBackwardsThroughLayerWithOutputVectorSizeAndOutputVectorErrorValuesAndWeightVectorAndInputVectorSizeAndInputVectorActivationValuesAndInputErrorsVectorThatWeAreGoingToOutput(int outputVectorSize, NeuralValue* outputErrorVector, NeuralValue* weightVector, int inputVectorSize, NeuralValue* inputActivationValuesVector, NeuralValue* inputErrorsVectorThatWeAreGoingToOutput) {
-  //int outputVectorSize, NeuralValue* outputErrorVector, NeuralValue* weightVector, int inputVectorSize,
-  //NeuralValue* inputActivationValuesVector, NeuralValue* inputErrorsVectorThatWeAreGoingToOutput
+
   memset(inputErrorsVectorThatWeAreGoingToOutput, 0, sizeof(NeuralValue)*inputVectorSize);
   for (int outputVectorIndex = 0; outputVectorIndex < outputVectorSize; ++outputVectorIndex) {
       for (int inputVectorIndex = 0; inputVectorIndex < inputVectorSize; ++inputVectorIndex) {
