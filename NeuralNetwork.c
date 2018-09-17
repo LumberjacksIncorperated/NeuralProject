@@ -1,9 +1,11 @@
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
 #include "NeuralNetwork.h"
+
+#define TRUE (0==0)
+#define FALSE (!TRUE)
 
 
 #define MAX(a,b) \
