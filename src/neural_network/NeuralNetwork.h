@@ -84,4 +84,8 @@ void learnOnInputVectorAndExpectedResultClassification(NeuralNetwork* theNeuralN
 */
 NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(NeuralValue* inputVector, NeuralNetwork* theNeuralNetwork);
 
+//-----------------------------------------------------------------------------------------
+// TEST DEFINITIONS
+//-----------------------------------------------------------------------------------------
+
 #endif

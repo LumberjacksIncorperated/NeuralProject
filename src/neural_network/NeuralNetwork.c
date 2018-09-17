@@ -247,6 +247,19 @@ NeuralResultClassification classifyResultForInputVectorUnderNeuralNetwork(Neural
 }
 
 //-----------------------------------------------------------------------------------------
+// TEST FUNCTIONS
+//-----------------------------------------------------------------------------------------
+void test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue(int numberOfColumns, int numberOfValuesPerColumn, NeuralValue defaultNeuralValue) {
+    NeuralValue** columnsOfNeuralValues = (NeuralValue**) malloc(numberOfColumns * sizeof(NeuralValue*));
+    for (int columnIndex = 0; columnIndex < numberOfColumns; ++columnIndex) {
+        columnsOfNeuralValues[columnIndex] = _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(numberOfValuesPerColumn, defaultNeuralValue);
+    }
+    return columnsOfNeuralValues;
+}
+
+
+
+//-----------------------------------------------------------------------------------------
 // META FUNCTIONS
 //-----------------------------------------------------------------------------------------
 void __print1dArrayWithNameArrayAndSize(char* name, NeuralValue* array, int size) {

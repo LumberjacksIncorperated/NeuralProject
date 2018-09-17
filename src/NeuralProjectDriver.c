@@ -20,5 +20,6 @@ int main() {
 
   destroyNeuralNetwork(aNeuralNetwork);
 
+  printf("Finishing the driver...\n");
   return 0;
 }
