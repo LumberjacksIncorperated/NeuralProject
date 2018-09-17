@@ -31,6 +31,7 @@ void _propagateBackwardsThroughLayerWithOutputVectorSizeAndOutputVectorErrorValu
 NeuralValue _determineErrorOfNeuralValueWhenComparedToExpectedResultClassification(NeuralValue neuralValueInQuestion, NeuralResultClassification resultClassificationInQuestion);
 int _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(int inputVectorIndex, int outputVectorIndex, int inputVectorSize);
 NeuralValue* _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(int numberOfValuesPerColumn, NeuralValue defaultNeuralValue);
+NeuralValue _getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex(NeuralValue* inputVector, int inputVectorIndex, int inputVectorSize, NeuralValue* inputWeights, int outputVectorIndex);
 
 //-----------------------------------------------------------------------------------------
 // META FUNCTION FORWARD DEFINITIONS
@@ -89,25 +90,23 @@ void _propagateBackwardsThroughLayerWithOutputVectorSizeAndOutputVectorErrorValu
 
 }
 
-
-
-
-
 int _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(int inputVectorIndex, int outputVectorIndex, int inputVectorSize) {
   int weightVectorIndex = inputVectorIndex + outputVectorIndex*inputVectorSize;
   return weightVectorIndex;
 }
 
-void _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(
-  NeuralValue* inputVector, int inputVectorSize, NeuralValue* inputWeights, NeuralValue* outputVector, int outputVectorSize) {
+NeuralValue _getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex(NeuralValue* inputVector, int inputVectorIndex, int inputVectorSize, NeuralValue* inputWeights, int outputVectorIndex) {
+  int inputWeightIndex = _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(inputVectorIndex, outputVectorIndex, inputVectorSize);
+  NeuralValue weight = inputWeights[inputWeightIndex];
+  NeuralValue contributionOfInputVectorValueThroughNetworkToCurrentOutputValue = inputVector[inputVectorIndex]*weight;
+  return contributionOfInputVectorValueThroughNetworkToCurrentOutputValue;
+}
 
+void _propagateForwardThroughOneNeuralLayerWithInputVectorAndInputVectorSizeAndInputWeightsAndOutputVectorAndOutputVectorSize(NeuralValue* inputVector, int inputVectorSize, NeuralValue* inputWeights, NeuralValue* outputVector, int outputVectorSize) {
     memset(outputVector, 0, sizeof(NeuralValue)*outputVectorSize);
-
     for (int outputVectorIndex = 0; outputVectorIndex < outputVectorSize; ++outputVectorIndex) {
         for (int inputVectorIndex = 0; inputVectorIndex < inputVectorSize; ++inputVectorIndex) {
-          int inputWeightIndex = _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(inputVectorIndex, outputVectorIndex, inputVectorSize);
-          NeuralValue weight = inputWeights[inputWeightIndex];
-          outputVector[outputVectorIndex] += inputVector[inputVectorIndex]*weight;
+          outputVector[outputVectorIndex] += _getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex(inputVector, inputVectorIndex, inputVectorSize, inputWeights, outputVectorIndex);
         }
     }
 }
