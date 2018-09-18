@@ -9,11 +9,11 @@
 # Lumberjacks Incorperated (2018)
 #
 ###########################################################################################
-cmake_minimum_required(VERSION 2.8.9)
-project(test_library_project)
+	cmake_minimum_required(VERSION 2.8.9)
+	project(test_library_project)
 
-message(STATUS "Binary Directory for this make is: ${CMAKE_BINARY_DIR}")
-message(STATUS "Source Directory for this make is: ${CMAKE_SOURCE_DIR}")
+	message(STATUS "Binary Directory for this make is: ${CMAKE_BINARY_DIR}")
+	message(STATUS "Source Directory for this make is: ${CMAKE_SOURCE_DIR}")
 
-set(SOURCES test_library.c)
-add_library(test_library STATIC ${SOURCES})
+	set(SOURCES test_library.c)
+	add_library(test_library STATIC ${SOURCES})
