@@ -31,8 +31,10 @@ main()
 #------------------------------------------------------------------------------------------
 function build()
 {
+	rm -r ./bin
 	rm -r ./build
 	mkdir build
+	mkdir bin
 	cd build
 	cmake ..
 	make
