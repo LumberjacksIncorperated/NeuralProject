@@ -8,4 +8,6 @@
 
 # Ignore the build directory
 build/
+
+# Ignore the executable directory
 bin/
