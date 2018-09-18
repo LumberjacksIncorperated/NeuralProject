@@ -1,1 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/cc  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/neuralNetworkProject.dir/src/neural_network/NeuralNetwork.c.o CMakeFiles/neuralNetworkProject.dir/src/NeuralProjectDriver.c.o  -o ../bin/neuralNetworkProject libs/test_library/libtest_library.a 
