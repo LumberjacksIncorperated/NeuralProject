@@ -16,31 +16,38 @@ message(STATUS "Binary Directory for this make is: ${CMAKE_BINARY_DIR}")
 message(STATUS "Source Directory for this make is: ${CMAKE_SOURCE_DIR}")
 
 ###########################################################################################
-# PROJECT
+# SUB DIRECTORIES
+###########################################################################################
+
+# Add Test Library
+add_subdirectory("${CMAKE_SOURCE_DIR}/libs/test_library/")
+include_directories(${CMAKE_SOURCE_DIR}/libs/test_library/)
+set(HEADER_SOURCES ${HEADER_SOURCES} ${CMAKE_SOURCE_DIR}/libs/test_library/test_library.h)
+
+###########################################################################################
+# COMMMON
 ###########################################################################################
 include_directories("${CMAKE_SOURCE_DIR}/src/neural_network")
-set(HEADER_SOURCES ${CMAKE_SOURCE_DIR}/src/neural_network/NeuralNetwork.h)
+set(HEADER_SOURCES ${HEADER_SOURCES} ${CMAKE_SOURCE_DIR}/src/neural_network/NeuralNetwork.h)
 
+###########################################################################################
+# PROJECT
+###########################################################################################
 set(SOURCES src/neural_network/NeuralNetwork.c src/NeuralProjectDriver.c ${HEADER_SOURCES})
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
 add_executable(neuralNetworkProject ${SOURCES})
+target_link_libraries(neuralNetworkProject test_library)
 
 install(TARGETS neuralNetworkProject DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
 ###########################################################################################
 # TESTING
 ###########################################################################################
-include_directories("${CMAKE_SOURCE_DIR}/src/neural_network")
-set(HEADER_SOURCES ${CMAKE_SOURCE_DIR}/src/neural_network/NeuralNetwork.h)
-
-set(TEST_SOURCES src/neural_network/NeuralNetwork.c src/NeuralProjectTest.c ${HEADER_SOURCES})
+set(SOURCES src/neural_network/NeuralNetwork.c src/NeuralProjectTest.c  ${HEADER_SOURCES})
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
 
-add_executable(neuralNetworkProjectTest ${TEST_SOURCES})
+add_executable(neuralNetworkProjectTest ${SOURCES})
+target_link_libraries(neuralNetworkProjectTest test_library)
 
 install(TARGETS neuralNetworkProjectTest DESTINATION ${EXECUTABLE_OUTPUT_PATH})
-
-###########################################################################################
-# TESTING
-###########################################################################################

@@ -1,4 +1,4 @@
-# Install script for directory: /Users/lumerberjacksincorperated/Documents/NeuralProject
+# Install script for directory: /Users/i346794/Desktop/NeuralProject
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,38 +34,44 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProject")
+   "/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProject")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/lumerberjacksincorperated/Documents/NeuralProject/bin" TYPE EXECUTABLE FILES "/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProject")
-  if(EXISTS "$ENV{DESTDIR}/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProject" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProject")
+file(INSTALL DESTINATION "/Users/i346794/Desktop/NeuralProject/bin" TYPE EXECUTABLE FILES "/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProject")
+  if(EXISTS "$ENV{DESTDIR}/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProject" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProject")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip" "$ENV{DESTDIR}/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProject")
+      execute_process(COMMAND "/Library/Developer/CommandLineTools/usr/bin/strip" "$ENV{DESTDIR}/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProject")
     endif()
   endif()
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProjectTest")
+   "/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProjectTest")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/Users/lumerberjacksincorperated/Documents/NeuralProject/bin" TYPE EXECUTABLE FILES "/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProjectTest")
-  if(EXISTS "$ENV{DESTDIR}/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProjectTest" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProjectTest")
+file(INSTALL DESTINATION "/Users/i346794/Desktop/NeuralProject/bin" TYPE EXECUTABLE FILES "/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProjectTest")
+  if(EXISTS "$ENV{DESTDIR}/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProjectTest" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProjectTest")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip" "$ENV{DESTDIR}/Users/lumerberjacksincorperated/Documents/NeuralProject/bin/neuralNetworkProjectTest")
+      execute_process(COMMAND "/Library/Developer/CommandLineTools/usr/bin/strip" "$ENV{DESTDIR}/Users/i346794/Desktop/NeuralProject/bin/neuralNetworkProjectTest")
     endif()
   endif()
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("/Users/i346794/Desktop/NeuralProject/build/libs/test_library/cmake_install.cmake")
+
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -76,5 +82,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/lumerberjacksincorperated/Documents/NeuralProject/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/i346794/Desktop/NeuralProject/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

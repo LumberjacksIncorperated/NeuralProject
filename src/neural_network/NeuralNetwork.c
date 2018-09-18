@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "NeuralNetwork.h"
+#include "test_library.h"
 
 //-----------------------------------------------------------------------------------------
 // MACRO DEFINITIONS
@@ -267,33 +268,9 @@ void __print2dArrayWithNameArrayAndColumnsAndRows(char* name, NeuralValue** arra
 }
 
 //-----------------------------------------------------------------------------------------
-// TEST ASSISTANCE FUNCTIONS
-//-----------------------------------------------------------------------------------------
-void _test_printModuleTestingMessage() {
-    printf("\n----------------------------------------------------------------------------------------------\n");
-    printf("\t MODULE TESTING: neural_network\n");
-    printf("----------------------------------------------------------------------------------------------\n");
-}
-
-void _test_printTestNameDescriptionAndResultStub(char* testName, char* testDescription) {
-    printf("\t<Test>: %s\n", testName);
-    printf("\t<Decription>: %s\n", testDescription);
-    printf("\t<Result>: ");
-}
-
-void _test_printTestResult(int testResult) {
-    if(testResult == TRUE) {
-          printf("PASSED\n\n");
-    } else {
-          printf("FAILED\n\n");
-    }
-}
-
-//-----------------------------------------------------------------------------------------
 // TEST FUNCTIONS
 //-----------------------------------------------------------------------------------------
-void test_getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex() {
-    _test_printTestNameDescriptionAndResultStub("getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex", "test creates all default values");
+/*int _testfunction_getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex() {
     NeuralValue* testWeights= _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(25, 7);
     NeuralValue[] testInputVector = {2, 2, 2, 2, 2};
     int testInputVectorIndex = 3;
@@ -301,11 +278,10 @@ void test_getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerTo
     int testContribution = _getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex(testInputVector, testInputVectorIndex, 5, testWeights, testOutputVectorIndex);
     printf("here %lf\n", testContribution);
     int test_result = TRUE;
-    _test_printTestResult(test_result);
-}
+    return test_result;
+}*/
 
-void test_mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex() {
-    _test_printTestNameDescriptionAndResultStub("mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex", "test creates all default values");
+int _testfunction_mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex() {
     int test_result = TRUE;
     int mapTestOutputValueOne = _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(4, 4, 4);
     if(mapTestOutputValueOne != 20) test_result = FALSE;
@@ -313,11 +289,10 @@ void test_mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVec
     if(mapTestOutputValueTwo != 8) test_result = FALSE;
     int mapTestOutputValueThree = _mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex(2, 3, 3);
     if(mapTestOutputValueThree != 11) test_result = FALSE;
-    _test_printTestResult(test_result);
+    return test_result;
 }
 
-void test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue() {
-    _test_printTestNameDescriptionAndResultStub("createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue", "test creates all default values");
+int _testfunction_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue() {
     NeuralValue** testColumns = _createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue(5, 15, 7);
     int test_result = TRUE;
     for(int columnIndex = 0; columnIndex < 5; columnIndex++) {
@@ -327,11 +302,10 @@ void test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnA
             }
         }
     }
-    _test_printTestResult(test_result);
+    return test_result;
 }
 
-void test_createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue() {
-    _test_printTestNameDescriptionAndResultStub("createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue", "test creates all default values");
+int _testfunction_createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue() {
     NeuralValue* testColumn = _createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue(15, 7);
     int test_result = TRUE;
     for(int columnIndex = 0; columnIndex < 15; columnIndex++) {
@@ -339,16 +313,19 @@ void test_createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue() {
             test_result = FALSE;
         }
     }
-    _test_printTestResult(test_result);
+    return test_result;
 }
 
 //-----------------------------------------------------------------------------------------
 // MODULE TEST FUNCTION
 //-----------------------------------------------------------------------------------------
+void _test_createAndRunTest(TEST_FUNCTION testFunction, char* testName, char* testDescription) {
+    TEST_RUN testToRun = CREATE_TEST(testFunction, testName, testDescription);
+    RUN_TEST(testToRun);
+}
+
 void test_module_neural_network() {
-  _test_printModuleTestingMessage();
-  test_createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue();
-  test_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue();
-  test_mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex();
-  test_getContributionOfInputVectorValueWithIndexAndSizeThroughCurrentLayerToOutputValueWithIndex();
+  _test_createAndRunTest(_testfunction_createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue,"createColumnOfNueralValuesWithNumberOfEntriesAndDefaultValue", "test creates all default values");
+  _test_createAndRunTest(_testfunction_createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue, "createColumnsOfNeuralValuesWithNumberOfColumnsNumberOfValuesPerColumnAndDefaultNeuralValue", "none");
+  _test_createAndRunTest(_testfunction_mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex, "mapInputVectorIndexAndOutputVectorIndexForInputVectorOfSizeToWeightVectorIndex", "none");
 }
